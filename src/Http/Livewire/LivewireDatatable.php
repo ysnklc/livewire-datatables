@@ -27,6 +27,7 @@ class LivewireDatatable extends Component
     use WithPagination, WithCallbacks, WithPresetDateFilters, WithPresetTimeFilters;
 
     const SEPARATOR = '|**lwdt**|';
+    const DEFAULT_EXPORT_FILE_NAME = 'DatatableExport.xlsx';
     public $model;
     public $columns;
     public $search;
@@ -54,6 +55,7 @@ class LivewireDatatable extends Component
     public $beforeTableSlot;
     public $afterTableSlot;
     public $name;
+    public $exportFileName = self::DEFAULT_EXPORT_FILE_NAME;
 
     protected $query;
     protected $listeners = ['refreshLivewireDatatable'];
@@ -1052,7 +1054,7 @@ class LivewireDatatable extends Component
     {
         $this->forgetComputed();
 
-        return Excel::download(new DatatableExport($this->getQuery(true)->get()), 'DatatableExport.xlsx');
+        return Excel::download(new DatatableExport($this->getQuery(true)->get()), $this->exportFileName);
     }
 
     public function getQuery($export = false)
